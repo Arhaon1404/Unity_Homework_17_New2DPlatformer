@@ -1,7 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PathTargetChanger))]
-
 public class TargetFollower : MonoBehaviour
 {
     [SerializeField] private Enemy _followerObject;

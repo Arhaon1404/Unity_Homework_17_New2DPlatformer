@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PathTargetChanger))]
+[RequireComponent(typeof(Item))]
 
 public class ItemEffectActivator : MonoBehaviour
 {
