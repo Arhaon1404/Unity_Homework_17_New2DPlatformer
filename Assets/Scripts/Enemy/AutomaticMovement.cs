@@ -18,7 +18,10 @@ public class AutomaticMovement : DirectionTowarder
     protected override void Update()
     {
         base.Update();
+    }
 
+    private void FixedUpdate()
+    {
         _rigidbody.velocity = Direction * _speed;
     }
 }

@@ -8,13 +8,26 @@ public class ItemSpawner : MonoBehaviour
 
     private Item _spawnedObject;
 
-    private Coroutine _spawnGemCoroutine;
+    private Coroutine _spawnCoroutine;
     private float _spawnSecondsPeriod = 3f;
-    private bool _isDone = true;
+    private int _spawnCount;
+    private bool _isCoroutineDone = true;
     private Transform _point;
+
+    private void OnEnable()
+    {
+        ColliderChecker.ItemCollected += AddItemToSpawn;
+    }
+
+    private void OnDisable()
+    {
+        ColliderChecker.ItemCollected -= AddItemToSpawn;
+    }
 
     private void Start()
     {
+        _spawnCount = 0;
+
         for (int i = 0; i < _spawnPoints.childCount; i++)
         {
             _spawnedObject = Instantiate(_spawnableObject, _spawnPoints.GetChild(i).transform.position, Quaternion.identity);
@@ -24,6 +37,19 @@ public class ItemSpawner : MonoBehaviour
     }
 
     private void Update()
+    {
+        if (_spawnCount > 0)
+        {
+            CheckPoints();
+        }
+    }
+
+    private void AddItemToSpawn() 
+    {
+        _spawnCount++;
+    }
+
+    private void CheckPoints()
     {
         for (int i = 0; i < _spawnPoints.childCount; i++)
         {
@@ -44,20 +70,22 @@ public class ItemSpawner : MonoBehaviour
 
         _spawnedObject.transform.SetParent(_point);
 
-        _isDone = true;
+        _isCoroutineDone = true;
+
+        _spawnCount--;
     }
 
     private void RunCoroutine(Transform _point)
     {
-        if (_spawnGemCoroutine != null & _isDone == true)
+        if (_spawnCoroutine != null & _isCoroutineDone == true)
         {
-            StopCoroutine(_spawnGemCoroutine);
+            StopCoroutine(_spawnCoroutine);
         }
 
-        if (_isDone == true)
+        if (_isCoroutineDone == true)
         {
-            _isDone = false;
-            _spawnGemCoroutine = StartCoroutine(SpawnObject(_point));
+            _isCoroutineDone = false;
+            _spawnCoroutine = StartCoroutine(SpawnObject(_point));
         }
     }
 }

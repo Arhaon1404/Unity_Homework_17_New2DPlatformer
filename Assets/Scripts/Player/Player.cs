@@ -1,9 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Health),typeof(Attacker))]
+
 public class Player : Character
-{
-    public void GetHeath(int healPoints)
-    { 
-        _health += healPoints;
-    }
-}
+{}
