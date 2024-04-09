@@ -6,7 +6,7 @@ public class ColliderChecker : MonoBehaviour
 {
     [SerializeField] private Character _mainCharacter;
 
-    public static event Action ItemCollected;
+    public event Action ItemCollected;
 
     private Coroutine _coroutine;
     private bool _isCoroutineDone = true;
@@ -25,22 +25,26 @@ public class ColliderChecker : MonoBehaviour
             if (collision.gameObject.TryGetComponent(out Heal heal))
             {
                 int healthPointsRestore = heal.GetHealthPoints();
-                Destroy(collision.gameObject);
-                ItemCollected?.Invoke();
+                DestroyObject(collision.gameObject);
                 _mainCharacter.GetComponent<Health>().IncreaseHealth(healthPointsRestore);
             }
 
             if (collision.gameObject.TryGetComponent(out Money money))
             {
                 int points = money.GetMoneyPoints();
-                Destroy(collision.gameObject);
-                ItemCollected?.Invoke();
+                DestroyObject(collision.gameObject);
                 _mainCharacter.GetComponent<Score>().IncreaseScore(points);
             }
 
             _isColliding = true;
             RunCoroutine();
         }
+    }
+
+    private void DestroyObject(GameObject gameObject)
+    {
+        Destroy(gameObject);
+        ItemCollected?.Invoke();
     }
 
     private IEnumerator CollidingReset()

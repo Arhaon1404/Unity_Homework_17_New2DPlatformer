@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawnPoints: {fileID: 42188760}
   _spawnableObject: {fileID: 2584098786088970047, guid: 94feb29d53fced245b82ef4900dcb733, type: 3}
+  _colliderChecker: {fileID: 1835268708588453883}
 --- !u!4 &42188760
 Transform:
   m_ObjectHideFlags: 0
@@ -2557,6 +2558,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawnPoints: {fileID: 1253851901}
   _spawnableObject: {fileID: 6597358661358308931, guid: 3e2f14e1cefc67a4dad9265b7be0854e, type: 3}
+  _colliderChecker: {fileID: 1835268708588453883}
 --- !u!4 &1253851901
 Transform:
   m_ObjectHideFlags: 0

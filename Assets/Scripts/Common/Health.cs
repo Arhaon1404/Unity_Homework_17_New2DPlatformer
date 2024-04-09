@@ -7,7 +7,7 @@ public class Health : MonoBehaviour
 
     private void DestroyCharacter()
     {
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 
     public void IncreaseHealth(int numberIncreaseHealthPoint)

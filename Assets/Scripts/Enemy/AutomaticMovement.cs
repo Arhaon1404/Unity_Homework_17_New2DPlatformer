@@ -11,13 +11,16 @@ public class AutomaticMovement : DirectionTowarder
     protected override void Start()
     {
         base.Start();
-
-        _rigidbody = GetComponent<Rigidbody2D>();
     }
 
     protected override void Update()
     {
         base.Update();
+    }
+
+    private void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody2D>();
     }
 
     private void FixedUpdate()

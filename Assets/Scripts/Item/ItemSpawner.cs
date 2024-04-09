@@ -5,6 +5,7 @@ public class ItemSpawner : MonoBehaviour
 {
     [SerializeField] private Transform _spawnPoints;
     [SerializeField] private Item _spawnableObject;
+    [SerializeField] private ColliderChecker _colliderChecker;
 
     private Item _spawnedObject;
 
@@ -16,12 +17,12 @@ public class ItemSpawner : MonoBehaviour
 
     private void OnEnable()
     {
-        ColliderChecker.ItemCollected += AddItemToSpawn;
+        _colliderChecker.ItemCollected += AddItemToSpawn;
     }
 
     private void OnDisable()
     {
-        ColliderChecker.ItemCollected -= AddItemToSpawn;
+        _colliderChecker.ItemCollected -= AddItemToSpawn;
     }
 
     private void Start()
