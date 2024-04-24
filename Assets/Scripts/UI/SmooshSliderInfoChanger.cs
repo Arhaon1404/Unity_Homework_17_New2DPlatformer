@@ -5,27 +5,23 @@ using UnityEngine.UI;
 
 public class SmooshSliderInfoChanger : SliderInfoChanger
 {
-    [SerializeField] private float _duration;
-    private float _power;
-    private float _powerInitialValue;
-    private float _powerTarget;
+    [SerializeField] private float _rateOfChange;
+
     private float _target;
 
     private Coroutine _changeValueCoroutine;
-    private float _secondsPeriod;
+    private WaitForSeconds _secondsPeriod;
     private bool _isDone;
 
     private IEnumerator ChangeSliderValue()
     {
         while (_isDone == false)
         {
-            yield return new WaitForSeconds(_secondsPeriod);
-
-            _power = Mathf.MoveTowards(_powerInitialValue, _powerTarget, _duration * Time.deltaTime);
+            yield return _secondsPeriod;
 
             if (_slider.value < _target)
             {
-                _slider.value += _power;
+                SliderValueUpdate();
 
                 if (_slider.value >= _target)
                 {
@@ -34,8 +30,8 @@ public class SmooshSliderInfoChanger : SliderInfoChanger
             }
             else if (_slider.value > _target)
             {
-                _slider.value -= _power;
-                
+                SliderValueUpdate();
+
                 if (_slider.value <= _target)
                 { 
                     _isDone = true;
@@ -46,16 +42,21 @@ public class SmooshSliderInfoChanger : SliderInfoChanger
 
     private void RunCoroutine()
     {
-        if (_changeValueCoroutine != null & _isDone == true)
+        if (_isDone)
         {
-            StopCoroutine(_changeValueCoroutine);
-        }
+            if (_changeValueCoroutine != null)
+            {
+                StopCoroutine(_changeValueCoroutine);
+            }
 
-        if (_isDone == true)
-        {
             _isDone = false;
             _changeValueCoroutine = StartCoroutine(ChangeSliderValue());
         }
+    }
+
+    private void SliderValueUpdate()
+    {
+        _slider.value = Mathf.MoveTowards(_slider.value, _target, _rateOfChange * Time.deltaTime);
     }
 
     protected override void Start()
@@ -63,9 +64,7 @@ public class SmooshSliderInfoChanger : SliderInfoChanger
         base.Start();
         base.SliderUpdate();
 
-        _powerInitialValue = 0;
-        _powerTarget = 1f;
-        _secondsPeriod = 0.01f;
+        _secondsPeriod = new WaitForSeconds(0.01f);
         _isDone = true;
     }
 
