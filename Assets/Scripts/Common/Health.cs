@@ -6,7 +6,7 @@ public class Health : MonoBehaviour
     [SerializeField] private int _healthPoints;
     [SerializeField] private int _maxHealthPoints;
 
-    public event Action HealthChange;
+    public event Action HealthChanged;
 
     public int HealthPoints => _healthPoints;
     public int MaxHealthPoints => _maxHealthPoints;
@@ -48,6 +48,6 @@ public class Health : MonoBehaviour
 
     private void HealthChangeInvoke()
     {
-        HealthChange?.Invoke();
+        HealthChanged?.Invoke();
     }
 }

@@ -5,29 +5,29 @@ using UnityEngine;
 
 public class SliderInfoChanger : MonoBehaviour
 {
-    [SerializeField] protected Health _health;
+    [SerializeField] protected Health Health;
 
     protected Slider _slider;
 
     private void OnEnable()
     {
-        _health.HealthChange += SliderUpdate;
+        Health.HealthChanged += SliderUpdate;
     }
 
     private void OnDisable()
     {
-        _health.HealthChange -= SliderUpdate;
+        Health.HealthChanged -= SliderUpdate;
     }
 
     protected virtual void Start()
     {
         _slider = GetComponent<Slider>();
-        _slider.maxValue = _health.MaxHealthPoints;
+        _slider.maxValue = Health.MaxHealthPoints;
         SliderUpdate();
     }
 
     protected virtual void SliderUpdate()
     {
-        _slider.value = _health.HealthPoints;
+        _slider.value = Health.HealthPoints;
     }
 }

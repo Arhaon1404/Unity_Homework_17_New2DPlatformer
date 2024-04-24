@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class Money : Item
 {
-    [SerializeField] private int _moneyPoints;
-    public int GetMoneyPoints()
+    public int MoneyPoints { get; private set; }
+
+    private void Start()
     {
-        return _moneyPoints;
+        MoneyPoints = 1;
     }
 }

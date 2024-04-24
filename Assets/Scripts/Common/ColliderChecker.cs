@@ -31,7 +31,7 @@ public class ColliderChecker : MonoBehaviour
 
             if (collision.gameObject.TryGetComponent(out Money money))
             {
-                int points = money.GetMoneyPoints();
+                int points = money.MoneyPoints;
                 DestroyObject(collision.gameObject);
                 _mainCharacter.GetComponent<Score>().IncreaseScore(points);
             }

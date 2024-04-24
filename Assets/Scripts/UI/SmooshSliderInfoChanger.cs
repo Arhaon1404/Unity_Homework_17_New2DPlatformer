@@ -22,21 +22,14 @@ public class SmooshSliderInfoChanger : SliderInfoChanger
             if (_slider.value < _target)
             {
                 SliderValueUpdate();
-
-                if (_slider.value >= _target)
-                {
-                    _isDone = true;
-                }
             }
             else if (_slider.value > _target)
             {
                 SliderValueUpdate();
-
-                if (_slider.value <= _target)
-                { 
-                    _isDone = true;
-                }
             }
+
+            if (_slider.value == _target)
+                _isDone = true;
         }
     }
 
@@ -70,7 +63,7 @@ public class SmooshSliderInfoChanger : SliderInfoChanger
 
     protected override void SliderUpdate()
     {
-        _target = _health.HealthPoints;
+        _target = Health.HealthPoints;
 
         RunCoroutine();
     }

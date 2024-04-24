@@ -3535,7 +3535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4bc96a3a714a47459f54377df3bb567, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: {fileID: 1835268708588453884}
+  Health: {fileID: 1835268708588453884}
   _rateOfChange: 7
 --- !u!1 &1253851899
 GameObject:
@@ -4203,7 +4203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 900f3433e0df2964d839482b04ca1a68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: {fileID: 1835268708588453884}
+  Health: {fileID: 1835268708588453884}
 --- !u!1 &2118233054
 GameObject:
   m_ObjectHideFlags: 0

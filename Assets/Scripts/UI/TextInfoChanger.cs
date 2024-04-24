@@ -20,12 +20,12 @@ public class TextInfoChanger : MonoBehaviour
 
     private void OnEnable()
     {
-        _health.HealthChange += TextUpdate;
+        _health.HealthChanged += TextUpdate;
     }
 
     private void OnDisable()
     {
-        _health.HealthChange -= TextUpdate;
+        _health.HealthChanged -= TextUpdate;
     }
 
     private void TextUpdate()
