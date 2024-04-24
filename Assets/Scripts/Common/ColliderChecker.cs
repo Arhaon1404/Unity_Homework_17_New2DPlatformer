@@ -14,7 +14,7 @@ public class ColliderChecker : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (_isColliding == false) 
+        if (_isColliding == false)
         {
             if (collision.gameObject.TryGetComponent(out Character attackCharacter))
             {
