@@ -9,11 +9,11 @@ public class HealthChanger : MonoBehaviour
 
     public void Increase()
     {
-        _health.IncreaseHealth(_healthPoints);
+        _health.Increase(_healthPoints);
     }
 
     public void Decrease()
     {
-        _health.DecreaseHealth(_healthPoints);
+        _health.Decrease(_healthPoints);
     }
 }

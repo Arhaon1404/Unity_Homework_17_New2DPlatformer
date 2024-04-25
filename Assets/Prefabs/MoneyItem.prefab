@@ -146,4 +146,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab4bab225a2739242b917c5030a36c35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moneyPoints: 1
+  <MoneyPoints>k__BackingField: 1

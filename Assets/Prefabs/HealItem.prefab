@@ -146,4 +146,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baab2444d20a4c04ebce1f7ba27a8306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _heathPointsRestore: 1
+  <HeathPointsRestore>k__BackingField: 1

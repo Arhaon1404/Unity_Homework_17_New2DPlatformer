@@ -6,7 +6,7 @@ public class Health : MonoBehaviour
     [SerializeField] private int _healthPoints;
     [SerializeField] private int _maxHealthPoints;
 
-    public event Action HealthChanged;
+    public event Action Changed;
 
     public int HealthPoints => _healthPoints;
     public int MaxHealthPoints => _maxHealthPoints;
@@ -17,30 +17,30 @@ public class Health : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void IncreaseHealth(int numberIncreaseHealthPoint)
+    public void Increase(int amount)
     {
-        if ((_healthPoints + numberIncreaseHealthPoint) >= _maxHealthPoints)
+        if ((_healthPoints + amount) >= _maxHealthPoints)
         {
             _healthPoints = _maxHealthPoints;
         }
         else
         {
-            _healthPoints += numberIncreaseHealthPoint;
+            _healthPoints += amount;
         }
 
         HealthChangeInvoke();
     }
 
-    public void DecreaseHealth(int numberDecreaseHealthPoint)
+    public void Decrease(int amount)
     {
-        if ((_healthPoints - numberDecreaseHealthPoint) <= 0)
+        if ((_healthPoints - amount) <= 0)
         {
             _healthPoints = 0;
             DestroyCharacter();
         }
         else
         {
-            _healthPoints -= numberDecreaseHealthPoint;
+            _healthPoints -= amount;
         }
 
         HealthChangeInvoke();
@@ -48,6 +48,6 @@ public class Health : MonoBehaviour
 
     private void HealthChangeInvoke()
     {
-        HealthChanged?.Invoke();
+        Changed?.Invoke();
     }
 }

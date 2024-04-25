@@ -11,12 +11,12 @@ public class SliderInfoChanger : MonoBehaviour
 
     private void OnEnable()
     {
-        Health.HealthChanged += SliderUpdate;
+        Health.Changed += SliderUpdate;
     }
 
     private void OnDisable()
     {
-        Health.HealthChanged -= SliderUpdate;
+        Health.Changed -= SliderUpdate;
     }
 
     protected virtual void Start()
