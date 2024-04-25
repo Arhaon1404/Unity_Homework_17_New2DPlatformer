@@ -10,23 +10,15 @@ public class SmooshSliderInfoChanger : SliderInfoChanger
     private float _target;
 
     private Coroutine _changeValueCoroutine;
-    private WaitForSeconds _secondsPeriod;
     private bool _isDone;
 
     private IEnumerator ChangeSliderValue()
     {
-        while (_isDone == false)
+        while (_slider.value != _target)
         {
-            yield return _secondsPeriod;
+            yield return null;
 
-            if (_slider.value < _target)
-            {
-                SliderValueUpdate();
-            }
-            else if (_slider.value > _target)
-            {
-                SliderValueUpdate();
-            }
+            _slider.value = Mathf.MoveTowards(_slider.value, _target, _rateOfChange * Time.deltaTime);
 
             if (_slider.value == _target)
                 _isDone = true;
@@ -47,17 +39,11 @@ public class SmooshSliderInfoChanger : SliderInfoChanger
         }
     }
 
-    private void SliderValueUpdate()
-    {
-        _slider.value = Mathf.MoveTowards(_slider.value, _target, _rateOfChange * Time.deltaTime);
-    }
-
     protected override void Start()
     {
         base.Start();
         base.SliderUpdate();
 
-        _secondsPeriod = new WaitForSeconds(0.01f);
         _isDone = true;
     }
 
