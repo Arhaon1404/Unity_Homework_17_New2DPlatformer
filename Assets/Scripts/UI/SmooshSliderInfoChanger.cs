@@ -7,7 +7,7 @@ public class SmooshSliderInfoChanger : SliderInfoChanger
 {
     [SerializeField] private float _rateOfChange;
 
-    private float _target;
+    private int _target;
 
     private Coroutine _changeValueCoroutine;
     private bool _isDone;
@@ -19,10 +19,9 @@ public class SmooshSliderInfoChanger : SliderInfoChanger
             yield return null;
 
             _slider.value = Mathf.MoveTowards(_slider.value, _target, _rateOfChange * Time.deltaTime);
-
-            if (_slider.value == _target)
-                _isDone = true;
         }
+
+        _isDone = true;
     }
 
     private void RunCoroutine()
