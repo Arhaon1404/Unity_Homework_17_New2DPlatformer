@@ -5,9 +5,13 @@ using UnityEngine;
 
 public class SliderInfoChanger : MonoBehaviour
 {
-    [SerializeField] protected Health Health;
+    protected Health Health;
+    protected Slider Slider;
 
-    protected Slider _slider;
+    private void Awake()
+    {
+        Health = transform.root.GetComponent<Health>();
+    }
 
     private void OnEnable()
     {
@@ -21,13 +25,13 @@ public class SliderInfoChanger : MonoBehaviour
 
     protected virtual void Start()
     {
-        _slider = GetComponent<Slider>();
-        _slider.maxValue = Health.MaxHealthPoints;
+        Slider = GetComponent<Slider>();
+        Slider.maxValue = Health.MaxHealthPoints;
         SliderUpdate();
     }
 
     protected virtual void SliderUpdate()
     {
-        _slider.value = Health.HealthPoints;
+        Slider.value = Health.HealthPoints;
     }
 }

@@ -8,23 +8,23 @@ public class AutomaticMovement : DirectionTowarder
 
     private Rigidbody2D _rigidbody;
 
-    protected override void Start()
-    {
-        base.Start();
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-    }
-
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
+    protected override void Start()
+    {
+        base.Start();
+    }
+
     private void FixedUpdate()
     {
         _rigidbody.velocity = Direction * _speed;
+    }
+
+    protected override void Update()
+    {
+        base.Update();
     }
 }

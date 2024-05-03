@@ -21,6 +21,13 @@ public class TargetFollower : MonoBehaviour
         TryGetPlayer(collision);
     }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        _pathTargetChanger.SetPriorityTarget(false);
+
+        _followerObject.SetTarget(_pathTargetChanger.LastTarget);
+    }
+
     private void TryGetPlayer(Collider2D collision)
     {
         if (collision.GetComponent<Collider2D>().TryGetComponent(out Player player))
@@ -32,12 +39,5 @@ public class TargetFollower : MonoBehaviour
 
             _followerObject.SetTarget(player.transform.position);
         }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        _pathTargetChanger.SetPriorityTarget(false);
-
-        _followerObject.SetTarget(_pathTargetChanger.LastTarget);
     }
 }

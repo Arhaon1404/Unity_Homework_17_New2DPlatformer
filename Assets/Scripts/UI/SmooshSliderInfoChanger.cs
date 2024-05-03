@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class SmooshSliderInfoChanger : SliderInfoChanger
 {
@@ -12,13 +10,28 @@ public class SmooshSliderInfoChanger : SliderInfoChanger
     private Coroutine _changeValueCoroutine;
     private bool _isDone;
 
+    protected override void Start()
+    {
+        base.Start();
+        base.SliderUpdate();
+
+        _isDone = true;
+    }
+
+    protected override void SliderUpdate()
+    {
+        _target = Health.HealthPoints;
+
+        RunCoroutine();
+    }
+
     private IEnumerator ChangeSliderValue()
     {
-        while (_slider.value != _target)
+        while (Slider.value != _target)
         {
             yield return null;
 
-            _slider.value = Mathf.MoveTowards(_slider.value, _target, _rateOfChange * Time.deltaTime);
+            Slider.value = Mathf.MoveTowards(Slider.value, _target, _rateOfChange * Time.deltaTime);
         }
 
         _isDone = true;
@@ -36,20 +49,5 @@ public class SmooshSliderInfoChanger : SliderInfoChanger
             _isDone = false;
             _changeValueCoroutine = StartCoroutine(ChangeSliderValue());
         }
-    }
-
-    protected override void Start()
-    {
-        base.Start();
-        base.SliderUpdate();
-
-        _isDone = true;
-    }
-
-    protected override void SliderUpdate()
-    {
-        _target = Health.HealthPoints;
-
-        RunCoroutine();
     }
 }
