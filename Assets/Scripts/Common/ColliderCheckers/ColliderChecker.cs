@@ -4,13 +4,24 @@ using UnityEngine;
 
 public class ColliderChecker : MonoBehaviour
 {
-    [SerializeField] protected Character _mainCharacter;
+    [SerializeField] protected Character MainCharacter;
 
     public event Action ItemCollected;
 
     protected Coroutine Coroutine;
     protected bool IsCoroutineDone = true;
     protected bool IsColliding = false;
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (IsColliding == false)
+        {
+            CheckComponent(collision);
+
+            IsColliding = true;
+            RunCoroutine();
+        }
+    }
 
     protected void DestroyObject(GameObject gameObject)
     {
@@ -40,4 +51,6 @@ public class ColliderChecker : MonoBehaviour
             Coroutine = StartCoroutine(CollidingReset());
         }
     }
+
+    protected virtual void CheckComponent(Collider2D collision) { }
 }

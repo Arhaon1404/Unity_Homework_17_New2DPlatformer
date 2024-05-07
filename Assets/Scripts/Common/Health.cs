@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] private int _healthPoints;
-    [SerializeField] private int _maxHealthPoints;
+    [SerializeField] private float _healthPoints;
+    [SerializeField] private float _maxHealthPoints;
 
     public event Action Changed;
 
-    public int HealthPoints => _healthPoints;
-    public int MaxHealthPoints => _maxHealthPoints;
+    public float HealthPoints => _healthPoints;
+    public float MaxHealthPoints => _maxHealthPoints;
 
     private void DestroyCharacter()
     {
@@ -19,19 +19,25 @@ public class Health : MonoBehaviour
 
     public void Increase(int amount)
     {
-        _healthPoints = Math.Clamp(_healthPoints + amount, 0, _maxHealthPoints);
+        if (amount > 0)
+        {
+            _healthPoints = Math.Clamp(_healthPoints + amount, 0, _maxHealthPoints);
 
-        HealthChangeInvoke();
+            HealthChangeInvoke();
+        }
     }
 
     public void Decrease(int amount)
     {
-        _healthPoints = Math.Clamp(_healthPoints - amount, 0, _maxHealthPoints);
+        if (amount > 0)
+        {
+            _healthPoints = Math.Clamp(_healthPoints - amount, 0, _maxHealthPoints);
 
-        if (_healthPoints == 0)
-            DestroyCharacter();
+            if (_healthPoints == 0)
+                DestroyCharacter();
 
-        HealthChangeInvoke();
+            HealthChangeInvoke();
+        }
     }
 
     private void HealthChangeInvoke()

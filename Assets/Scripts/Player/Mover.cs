@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(AnimationChanger))]
 
-public class Movemer : MonoBehaviour
+public class Mover : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
@@ -25,6 +25,20 @@ public class Movemer : MonoBehaviour
         ReadButtons();
     }
 
+    private void FixedUpdate()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            if (_isGrounded)
+            {
+                _rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode2D.Impulse);
+            }
+        }
+
+        _animationChanger.ChangeJumpAnimation(_rigidbody.velocity.y);
+        CheckGround(_rigidbody.velocity.y);
+    }
+
     private void ReadButtons()
     {
         if (Input.GetKey(KeyCode.A))
@@ -43,17 +57,6 @@ public class Movemer : MonoBehaviour
         {
             _animationChanger.ChangeDirectionAnimation(_isRight, false);
         }
-
-        if (Input.GetKey(KeyCode.Space))
-        {
-            if (_isGrounded)
-            {
-                _rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode2D.Impulse);
-            }
-        }
-
-        _animationChanger.ChangeJumpAnimation(_rigidbody.velocity.y);
-        CheckGround(_rigidbody.velocity.y);
     }
 
     private void CheckGround(float velocityY)

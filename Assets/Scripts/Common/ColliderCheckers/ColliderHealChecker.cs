@@ -4,19 +4,13 @@ using UnityEngine;
 
 public class ColliderHealChecker : ColliderChecker
 {
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected override void CheckComponent(Collider2D collision)
     {
-        if (IsColliding == false)
+        if (collision.gameObject.TryGetComponent(out Heal heal))
         {
-            if (collision.gameObject.TryGetComponent(out Heal heal))
-            {
-                int healthPointsRestore = heal.HeathPointsRestore;
-                DestroyObject(collision.gameObject);
-                _mainCharacter.GetComponent<Health>().Increase(healthPointsRestore);
-            }
-
-            IsColliding = true;
-            RunCoroutine();
+            int healthPointsRestore = heal.HeathPointsRestore;
+            DestroyObject(collision.gameObject);
+            MainCharacter.GetComponent<Health>().Increase(healthPointsRestore);
         }
     }
 }

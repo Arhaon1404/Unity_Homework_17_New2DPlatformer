@@ -1,11 +1,11 @@
 using System.Collections;
 using UnityEngine;
 
-public class SmooshSliderInfo : SliderInfo
+public class SmooshHealthSlider : HealthSlider
 {
-    [SerializeField] private float _rateOfChange;
+    [SerializeField] private float _duration;
 
-    private int _target;
+    private float _target;
 
     private Coroutine _changeValueCoroutine;
     private bool _isDone;
@@ -13,25 +13,29 @@ public class SmooshSliderInfo : SliderInfo
     protected override void Start()
     {
         base.Start();
-        base.SliderUpdate();
+        base.InfoUpdate();
 
         _isDone = true;
     }
 
-    protected override void SliderUpdate()
+    protected override void InfoUpdate()
     {
-        _target = Health.HealthPoints;
+        _target = Health.HealthPoints / Health.MaxHealthPoints;
 
         RunCoroutine();
     }
 
     private IEnumerator ChangeSliderValue()
     {
-        while (Slider.value != _target)
-        {
-            yield return null;
+        float sliderValue = Slider.value;
+        float timeElapsed = 0;
 
-            Slider.value = Mathf.MoveTowards(Slider.value, _target, _rateOfChange * Time.deltaTime);
+        while (timeElapsed < _duration)
+        {
+            Slider.value = Mathf.Lerp(sliderValue, _target, timeElapsed / _duration);
+            timeElapsed += Time.deltaTime;
+
+            yield return null;
         }
 
         _isDone = true;
