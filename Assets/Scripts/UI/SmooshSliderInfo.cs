@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class SmooshSliderInfoChanger : SliderInfoChanger
+public class SmooshSliderInfo : SliderInfo
 {
     [SerializeField] private float _rateOfChange;
 

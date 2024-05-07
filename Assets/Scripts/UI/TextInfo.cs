@@ -4,29 +4,19 @@ using TMPro;
 
 [RequireComponent(typeof(TMP_Text))]
 
-public class TextInfoChanger : MonoBehaviour
+public class TextInfo : SliderInfo
 {
     [SerializeField] private Health _health;
 
     private TMP_Text _textMesh;
 
-    private void Start()
+    protected override void Start()
     {
         _textMesh = GetComponent<TMP_Text>();
-        TextUpdate();
+        SliderUpdate();
     }
 
-    private void OnEnable()
-    {
-        _health.Changed += TextUpdate;
-    }
-
-    private void OnDisable()
-    {
-        _health.Changed -= TextUpdate;
-    }
-
-    private void TextUpdate()
+    protected override void SliderUpdate()
     {
         _textMesh.text = Convert.ToString(_health.HealthPoints);
     }

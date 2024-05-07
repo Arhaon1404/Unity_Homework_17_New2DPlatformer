@@ -386,8 +386,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8dfea7c51f86364fba2a659b9ed4ec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthPoints: 2
-  _maxHealthPoints: 2
+  _healthPoints: 3
+  _maxHealthPoints: 3
 --- !u!114 &178041623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2854,7 +2854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8dfea7c51f86364fba2a659b9ed4ec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthPoints: 1
+  _healthPoints: 5
   _maxHealthPoints: 5
 --- !u!114 &1835268708588453885
 MonoBehaviour:

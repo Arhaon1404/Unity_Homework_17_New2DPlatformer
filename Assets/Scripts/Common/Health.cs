@@ -19,29 +19,17 @@ public class Health : MonoBehaviour
 
     public void Increase(int amount)
     {
-        if ((_healthPoints + amount) >= _maxHealthPoints)
-        {
-            _healthPoints = _maxHealthPoints;
-        }
-        else
-        {
-            _healthPoints += amount;
-        }
+        _healthPoints = Math.Clamp(_healthPoints + amount, 0, _maxHealthPoints);
 
         HealthChangeInvoke();
     }
 
     public void Decrease(int amount)
     {
-        if ((_healthPoints - amount) <= 0)
-        {
-            _healthPoints = 0;
+        _healthPoints = Math.Clamp(_healthPoints - amount, 0, _maxHealthPoints);
+
+        if (_healthPoints == 0)
             DestroyCharacter();
-        }
-        else
-        {
-            _healthPoints -= amount;
-        }
 
         HealthChangeInvoke();
     }

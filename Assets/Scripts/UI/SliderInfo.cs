@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Slider))]
 
-public class SliderInfoChanger : MonoBehaviour
+public class SliderInfo : MonoBehaviour
 {
     protected Health Health;
     protected Slider Slider;
