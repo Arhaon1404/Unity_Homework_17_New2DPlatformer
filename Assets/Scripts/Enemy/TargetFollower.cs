@@ -13,31 +13,48 @@ public class TargetFollower : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        TryGetPlayer(collision);
+        TryGetCollision(collision,false);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        TryGetPlayer(collision);
+        TryGetCollision(collision,false);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        TryGetCollision(collision,true);
+    }
+
+    private void TryGetCollision(Collider2D collision, bool isExit)
+    {
+        if (collision.GetComponent<Collider2D>().TryGetComponent(out EnemyAggresionZone enemyAggresionZone))
+        {
+            if (isExit)
+            {
+                ExitPlayer();
+            }
+            else
+            {
+                GetPlayer(enemyAggresionZone);
+            }
+        }
+    }
+
+    private void GetPlayer(EnemyAggresionZone enemyAggresionZone)
+    {
+        if (_pathTargetChanger.IsTargetPriority == false)
+        {
+            _pathTargetChanger.SetPriorityTarget(true);
+        }
+
+        _followerObject.SetTarget(enemyAggresionZone.transform.position);
+    }
+
+    private void ExitPlayer()
+    {
         _pathTargetChanger.SetPriorityTarget(false);
 
         _followerObject.SetTarget(_pathTargetChanger.LastTarget);
-    }
-
-    private void TryGetPlayer(Collider2D collision)
-    {
-        if (collision.GetComponent<Collider2D>().TryGetComponent(out Player player))
-        {
-            if (_pathTargetChanger.IsTargetPriority == false)
-            {
-                _pathTargetChanger.SetPriorityTarget(true);
-            }
-
-            _followerObject.SetTarget(player.transform.position);
-        }
     }
 }

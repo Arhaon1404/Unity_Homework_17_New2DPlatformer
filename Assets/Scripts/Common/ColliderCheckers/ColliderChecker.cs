@@ -1,13 +1,8 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
 public class ColliderChecker : MonoBehaviour
 {
-    [SerializeField] protected Character MainCharacter;
-
-    public event Action ItemCollected;
-
     protected Coroutine Coroutine;
     protected bool IsCoroutineDone = true;
     protected bool IsColliding = false;
@@ -16,17 +11,11 @@ public class ColliderChecker : MonoBehaviour
     {
         if (IsColliding == false)
         {
-            CheckComponent(collision);
+            ActComponent(collision);
 
             IsColliding = true;
             RunCoroutine();
         }
-    }
-
-    protected void DestroyObject(GameObject gameObject)
-    {
-        Destroy(gameObject);
-        ItemCollected?.Invoke();
     }
 
     protected IEnumerator CollidingReset()
@@ -52,5 +41,5 @@ public class ColliderChecker : MonoBehaviour
         }
     }
 
-    protected virtual void CheckComponent(Collider2D collision) { }
+    protected virtual void ActComponent(Collider2D collision) { }
 }
