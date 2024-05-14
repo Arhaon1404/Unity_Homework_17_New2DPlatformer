@@ -1,23 +1,41 @@
+using System;
+using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+
+[RequireComponent (typeof(SpriteRenderer))]
 
 public class VampiricAbilityAttacker : MonoBehaviour
 {
     [SerializeField] private float _duration;
     [SerializeField] private float _delay;
-    [SerializeField] private int _vampiricDamage;
+    [SerializeField] private float _cooldown;
+    [SerializeField] private float _vampiricDamage;
+
+    public event Action Changed;
+
+    private List<Health> _enemyList = new List<Health>();
 
     private Health _mainCharacterHealth;
-    private Health _enemyHealth;
 
     private Coroutine _abilityCoroutine;
     private WaitForSeconds _coroutineDelay;
+
+    private SpriteRenderer _spriteRenderer;
+
     private bool _isCoroutineDone = true;
-    private bool inZone;
+    private bool _inZone;
+
+    private float _generalCooldown;
+
+    private float _residualVampiricDamage;
+
+    public float GeneralCooldown => _generalCooldown;
 
     private void Start()
     {
         _mainCharacterHealth = GetComponentInParent<Health>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         _coroutineDelay = new WaitForSeconds(_delay);
     }
 
@@ -25,34 +43,24 @@ public class VampiricAbilityAttacker : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent(out Health enemyHealth))
         {
-            inZone = true;
-            _enemyHealth = enemyHealth;
+            _inZone = true;
+            _enemyList.Add(enemyHealth);
+            _spriteRenderer.enabled = true;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        inZone = false;
-    }
-
-    private IEnumerator ActAbility()
-    {
-        float timeElapsed = 0;
-
-        while (timeElapsed < _duration)
+        if (collision.gameObject.TryGetComponent(out Health enemyHealth))
         {
-            if (inZone)
+            _enemyList.Remove(enemyHealth);
+
+            if (_enemyList.Count == 0)
             {
-                _enemyHealth.Decrease(_vampiricDamage);
-                _mainCharacterHealth.Increase(_vampiricDamage);
+                _inZone = false;
+                _spriteRenderer.enabled = false;
             }
-
-            timeElapsed += Time.deltaTime;
-
-            yield return _coroutineDelay;
         }
-
-        _isCoroutineDone = true;
     }
 
     public void StartAbilityCoroutine()
@@ -67,5 +75,40 @@ public class VampiricAbilityAttacker : MonoBehaviour
             _isCoroutineDone = false;
             _abilityCoroutine = StartCoroutine(ActAbility());
         }
+    }
+
+    private IEnumerator ActAbility()
+    {
+        float timeElapsed = _duration;
+        _generalCooldown = 0;
+
+        while (timeElapsed >= 0)
+        {
+            yield return _coroutineDelay;
+
+            if (_inZone == true)
+            {
+                _residualVampiricDamage = (_vampiricDamage - _enemyList[0].HealthPoints) > 0 ? (_vampiricDamage - _enemyList[0].HealthPoints) : 0;
+                _enemyList[0].Decrease(_vampiricDamage);
+                _mainCharacterHealth.Increase(_vampiricDamage - _residualVampiricDamage);
+            }
+            else
+            {
+                timeElapsed = 0;
+            }
+
+            timeElapsed -= Time.deltaTime;
+        }
+
+        _generalCooldown = _cooldown;
+
+        while (_generalCooldown > 0)
+        {
+            _generalCooldown -= Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+            Changed.Invoke();
+        }
+
+        _isCoroutineDone = true;
     }
 }

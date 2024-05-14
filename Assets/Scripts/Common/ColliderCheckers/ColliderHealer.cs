@@ -12,7 +12,7 @@ public class ColliderHealer : ColliderItemChecker
     {
         if (collision.gameObject.TryGetComponent(out Heal heal))
         {
-            int healthPointsRestore = heal.HeathPointsRestore;
+            float healthPointsRestore = heal.HeathPointsRestore;
             DestroyObject(collision.gameObject);
             _health.Increase(healthPointsRestore);
         }

@@ -17,7 +17,7 @@ public class Health : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void Increase(int amount)
+    public void Increase(float amount)
     {
         if (amount > 0)
         {
@@ -27,7 +27,7 @@ public class Health : MonoBehaviour
         }
     }
 
-    public void Decrease(int amount)
+    public void Decrease(float amount)
     {
         if (amount > 0)
         {
