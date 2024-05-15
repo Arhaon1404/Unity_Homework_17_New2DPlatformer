@@ -33,7 +33,7 @@ public class Health : MonoBehaviour
         {
             _healthPoints = Math.Clamp(_healthPoints - amount, 0, _maxHealthPoints);
 
-            if (_healthPoints == 0)
+            if (_healthPoints <= 0)
                 DestroyCharacter();
 
             HealthChangeInvoke();

@@ -10,12 +10,12 @@ public class AbilityCoolDownViewer : MonoBehaviour
 
     protected void OnEnable()
     {
-        _abilityComponent.Changed += UpdateCooldown;
+        _abilityComponent.CooldownUpdate += UpdateCooldown;
     }
 
     protected void OnDisable()
     {
-        _abilityComponent.Changed -= UpdateCooldown;
+        _abilityComponent.CooldownUpdate -= UpdateCooldown;
     }
 
     private void Start()

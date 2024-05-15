@@ -212,7 +212,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5212030178623309824, guid: 3be13a568c598e244963c97d9fe7bace, type: 3}
       propertyPath: _speed
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5212030178623309826, guid: 3be13a568c598e244963c97d9fe7bace, type: 3}
       propertyPath: m_Name
@@ -2543,6 +2543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a77585b86282df45bd6151f8408425a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mainCharacterHealth: {fileID: 1835268708588453884}
   _duration: 6
   _delay: 1
   _cooldown: 6
@@ -3425,7 +3426,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5212030178623309824, guid: 3be13a568c598e244963c97d9fe7bace, type: 3}
       propertyPath: _speed
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5212030178623309826, guid: 3be13a568c598e244963c97d9fe7bace, type: 3}
       propertyPath: m_Name

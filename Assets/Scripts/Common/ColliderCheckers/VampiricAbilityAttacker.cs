@@ -3,22 +3,20 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent (typeof(SpriteRenderer))]
+[RequireComponent(typeof(SpriteRenderer))]
 
 public class VampiricAbilityAttacker : MonoBehaviour
 {
+    [SerializeField] private Health _mainCharacterHealth;
     [SerializeField] private float _duration;
     [SerializeField] private float _delay;
     [SerializeField] private float _cooldown;
     [SerializeField] private float _vampiricDamage;
 
-    public event Action Changed;
-
     private List<Health> _enemyList = new List<Health>();
 
-    private Health _mainCharacterHealth;
-
     private Coroutine _abilityCoroutine;
+    private Coroutine _cooldownCoroutine;
     private WaitForSeconds _coroutineDelay;
 
     private SpriteRenderer _spriteRenderer;
@@ -27,14 +25,13 @@ public class VampiricAbilityAttacker : MonoBehaviour
     private bool _inZone;
 
     private float _generalCooldown;
-
     private float _residualVampiricDamage;
-
     public float GeneralCooldown => _generalCooldown;
+
+    public event Action CooldownUpdate;
 
     private void Start()
     {
-        _mainCharacterHealth = GetComponentInParent<Health>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _coroutineDelay = new WaitForSeconds(_delay);
     }
@@ -65,15 +62,19 @@ public class VampiricAbilityAttacker : MonoBehaviour
 
     public void StartAbilityCoroutine()
     {
-        if (_abilityCoroutine != null & _isCoroutineDone == true)
+        if (_generalCooldown <= 0)
         {
-            StopCoroutine(_abilityCoroutine);
-        }
+            if (_abilityCoroutine != null && _isCoroutineDone == true)
+            {
+                StopCoroutine(_abilityCoroutine);
+                StopCoroutine(_cooldownCoroutine);
+            }
 
-        if (_isCoroutineDone == true)
-        {
-            _isCoroutineDone = false;
-            _abilityCoroutine = StartCoroutine(ActAbility());
+            if (_isCoroutineDone == true)
+            {
+                _isCoroutineDone = false;
+                _abilityCoroutine = StartCoroutine(ActAbility());
+            }
         }
     }
 
@@ -84,31 +85,46 @@ public class VampiricAbilityAttacker : MonoBehaviour
 
         while (timeElapsed >= 0)
         {
+            timeElapsed = CheckObjectInZone(timeElapsed);
+
             yield return _coroutineDelay;
-
-            if (_inZone == true)
-            {
-                _residualVampiricDamage = (_vampiricDamage - _enemyList[0].HealthPoints) > 0 ? (_vampiricDamage - _enemyList[0].HealthPoints) : 0;
-                _enemyList[0].Decrease(_vampiricDamage);
-                _mainCharacterHealth.Increase(_vampiricDamage - _residualVampiricDamage);
-            }
-            else
-            {
-                timeElapsed = 0;
-            }
-
-            timeElapsed -= Time.deltaTime;
         }
 
+        _cooldownCoroutine = StartCoroutine(StartCooldown());
+
+        _isCoroutineDone = true;
+    }
+
+    private IEnumerator StartCooldown()
+    {
         _generalCooldown = _cooldown;
 
         while (_generalCooldown > 0)
         {
             _generalCooldown -= Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-            Changed.Invoke();
+            yield return null;
+            CooldownUpdate.Invoke();
+        }
+    }
+
+    private float CheckObjectInZone(float timeElapsed)
+    {
+        if (_inZone)
+        {
+            float remainingHealth = _vampiricDamage - _enemyList[0].HealthPoints;
+
+            _residualVampiricDamage = remainingHealth > 0 ? remainingHealth : 0;
+
+            _enemyList[0].Decrease(_vampiricDamage);
+            _mainCharacterHealth.Increase(_vampiricDamage - _residualVampiricDamage);
+        }
+        else
+        {
+            timeElapsed = 0;
         }
 
-        _isCoroutineDone = true;
+        return timeElapsed -= Time.deltaTime;
     }
 }
+
+
