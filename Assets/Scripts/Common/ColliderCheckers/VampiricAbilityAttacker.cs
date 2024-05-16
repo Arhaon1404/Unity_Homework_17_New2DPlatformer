@@ -64,7 +64,7 @@ public class VampiricAbilityAttacker : MonoBehaviour
     {
         if (_generalCooldown <= 0)
         {
-            if (_abilityCoroutine != null && _isCoroutineDone == true)
+            if (_abilityCoroutine != null)
             {
                 StopCoroutine(_abilityCoroutine);
                 StopCoroutine(_cooldownCoroutine);
@@ -85,7 +85,7 @@ public class VampiricAbilityAttacker : MonoBehaviour
 
         while (timeElapsed >= 0)
         {
-            timeElapsed = CheckObjectInZone(timeElapsed);
+            timeElapsed = PerformActAbility(timeElapsed);
 
             yield return _coroutineDelay;
         }
@@ -107,7 +107,7 @@ public class VampiricAbilityAttacker : MonoBehaviour
         }
     }
 
-    private float CheckObjectInZone(float timeElapsed)
+    private float PerformActAbility(float timeElapsed)
     {
         if (_inZone)
         {
